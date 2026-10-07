@@ -1,3 +1,5 @@
+
+
 DROP DATABASE IF EXISTS PracticeBookDB;
 CREATE DATABASE PracticeBookDB;
 USE PracticeBookDB;
