@@ -1,5 +1,3 @@
-
-
 DROP DATABASE IF EXISTS PracticeBookDB;
 CREATE DATABASE PracticeBookDB;
 USE PracticeBookDB;
@@ -222,7 +220,7 @@ WHERE price>130.0;
 
 SELECT status,order_id
 FROM orders
-WHERE status='delevered';
+WHERE status='Delivered';
 
 SELECT DISTINCT country
 FROM customers;
@@ -261,3 +259,104 @@ WHERE customer_name LIKE '%A%';
 SELECT customer_name,city
 FROM customers
 WHERE customer_name LIKE '%A';
+
+SELECT product_name,category
+FROM products
+WHERE stock_quantity <60;
+
+
+SELECT status,order_id,total_amount
+FROM orders
+WHERE status='cancelled';
+
+SELECT status,order_id,total_amount
+FROM orders
+WHERE total_amount>195;
+
+SELECT * 
+FROM employees
+WHERE department_id IN(1,2);
+
+SELECT * 
+FROM employees
+WHERE manager_id IS NULL;
+
+SELECT COUNT(*)
+FROM employees
+WHERE first_name LIKE 'A%';
+
+SELECT COUNT(*) AS employee_count
+FROM employees
+WHERE first_name LIKE 'A%';
+
+SELECT AVG(salary) AS employee_average_salary
+FROM employees;
+
+SELECT 
+	COUNT(*) AS total_employee,
+    SUM(salary) AS total_salary,
+    AVG(salary) AS average_salary,
+    MIN(salary) AS min_salary,
+    MAX(salary) AS max_salary
+FROM employees;
+    
+SELECT SUM(total_amount) AS tatal_non_payable_amount
+FROM orders
+WHERE status ='cancelled';
+
+SELECT department_id, SUM(salary) AS total_salary_by_each_department
+FROM employees
+GROUP BY department_id;
+    
+SELECT department_id, AVG(salary) AS avg_salary_by_each_department
+FROM employees
+GROUP BY department_id
+HAVING avg_salary_by_each_department>70000;
+
+SELECT employee_id,salary AS salary_in_sorted_order
+FROM employees
+ORDER BY salary DESC
+LIMIT 3;
+
+
+SELECT department_id, AVG(salary) AS average_salary
+FROM employees
+GROUP BY department_id
+HAVING AVG(salary) > 50000
+ORDER BY average_salary DESC;
+
+SELECT country,COUNT(country) AS customers_count
+FROM customers
+GROUP BY country
+ORDER BY customers_count DESC;
+
+SELECT department_id, AVG(salary) AS avg_salary
+FROM employees
+GROUP BY department_id;
+
+SELECT category, COUNT(category) AS total_count_of_each_category
+FROM products
+GROUP BY category
+ORDER BY total_count_of_each_category DESC;
+
+
+SELECT department_id,COUNT(*) AS employee_count_in_each_department
+FROM employees
+GROUP BY department_id
+HAVING employee_count_in_each_department>1
+ORDER BY employee_count_in_each_department ASC;
+
+
+SELECT first_name,
+		salary,
+        CASE
+			WHEN salary>=80000 THEN 'High'
+            WHEN salary>=70000 THEN 'Medium'
+            ELSE 'Low'
+		END AS salary_level
+FROM employees;	
+		
+        
+-- P30 Basic Employee Department Join. Display each employee's name and department name---
+
+
