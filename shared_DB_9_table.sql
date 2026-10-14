@@ -358,5 +358,9 @@ FROM employees;
 		
         
 -- P30 Basic Employee Department Join. Display each employee's name and department name---
-
+SELECT	e.first_name,
+		d.department_name
+FROM employees AS e
+JOIN departments AS d
+	ON e.department_id=d.department_id;
 
