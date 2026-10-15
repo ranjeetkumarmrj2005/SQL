@@ -362,5 +362,30 @@ SELECT	e.first_name,
 		d.department_name
 FROM employees AS e
 JOIN departments AS d
-	ON e.department_id=d.department_id;
-
+		ON e.department_id=d.department_id;
+    
+-- Customer Order List. Display customer names along with their order IDs and order amounts. --
+SELECT 	c.customer_name,
+		o.order_id,
+        o.total_amount
+FROM customers AS c
+JOIN orders AS o
+		ON c.customer_id=o.customer_id;
+        
+-- Employees With Department Names. Show employee name, department name, and salary. --
+SELECT 	e.first_name,
+		e.salary,
+        d.department_name
+FROM employees AS e
+JOIN departments AS d
+		ON e.department_id=d.department_id;
+		
+-- Customers With No Orders. Find customers who have never placed an order. --
+SELECT 	c.customer_id,
+		c.customer_name
+FROM customers AS c
+LEFT JOIN orders AS o
+		ON c.customer_id=o.customer_id
+WHERE o.customer_id IS NULL;
+		
+-- Orders With Customer Details. Show order ID, customer  name, order date, and status. --
