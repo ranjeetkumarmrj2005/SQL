@@ -1,0 +1,82 @@
+
+
+Writing Schema
+
+
+SELECT [DISTINCT]
+       column1,
+       column2,
+       aggregate_function(column3) AS alias
+FROM table1 AS t1
+
+[JOIN table2 AS t2
+    ON t1.common_column = t2.common_column]
+
+[WHERE row_condition]
+
+[GROUP BY column1, column2]
+
+[HAVING aggregate_condition]
+
+[ORDER BY column_or_alias ASC | DESC]
+
+[LIMIT number_of_rows
+ [OFFSET number_of_rows_to_skip]];
+
+
+
+
+
+Logical order of SQL execution
+1
+
+FROM
+Identify the source table(s).
+
+
+2
+
+JOIN / ON
+Combine tables using matching conditions.
+
+
+3
+
+WHERE
+Filter individual rows before grouping.
+
+
+4
+
+GROUP BY
+Group rows with the same grouping values.
+
+
+5
+
+HAVING
+Filter groups, often using SUM(), COUNT(), AVG(), etc.
+
+
+6
+
+SELECT
+Calculate expressions and choose output columns.
+
+
+7
+
+DISTINCT
+Remove duplicate output rows, if specified.
+
+
+8
+
+ORDER BY
+Sort the resulting rows.
+
+
+9
+
+LIMIT / OFFSET
+Restrict the results and optionally skip rows.

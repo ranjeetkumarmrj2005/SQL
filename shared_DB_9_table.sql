@@ -389,3 +389,68 @@ LEFT JOIN orders AS o
 WHERE o.customer_id IS NULL;
 		
 -- Orders With Customer Details. Show order ID, customer  name, order date, and status. --
+
+SELECT 	o.order_id,
+		c.customer_name,
+        o.order_date,
+        o.status
+FROM customers AS c
+INNER JOIN orders AS o
+		ON c.customer_id=o.customer_id;
+        
+        
+-- Products Never Ordered. Find products that have never appeared in order_items. --
+SELECT 	p.product_name,
+		o.order_id
+FROM products AS p
+LEFT JOIN order_items AS o
+		ON p.product_id=o.product_id
+WHERE o.product_id IS NULL;
+
+-- Total Spending Per Customer. Calculate total order value for every customer.
+SELECT 	c.customer_id,
+		c.customer_name,
+        COALESCE(SUM(o.total_amount),0) AS total_spent
+FROM customers AS c
+LEFT JOIN orders AS o
+		ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.customer_name
+ORDER BY total_spent DESC;
+
+
+SELECT 	c.customer_id,
+		c.customer_name,
+        SUM(o.total_amount) AS total_spent
+FROM 	customers AS c
+LEFT JOIN orders AS o
+		ON c.customer_id = o.customer_id
+GROUP BY c.customer_id
+ORDER BY total_spent DESC;
+
+		
+-- Customers Spending More Than 200. Find customers whose total order value exceeds 200.
+SELECT c.customer_id,
+	   c.customer_name,
+	   COALESCE(SUM(o.total_amount),0) AS total_spent
+FROM   customers AS c
+LEFT JOIN orders AS o
+	   ON c.customer_id=o.customer_id
+GROUP BY c.customer_id
+HAVING total_spent>200
+ORDER BY total_spent DESC;
+
+-- Average Order Value by Customer. Find the average order amount for each customer.
+SELECT 
+	c.customer_id,
+    c.customer_name,
+    COALESCE(AVG(o.total_amount),0) AS avg_order_value
+FROM
+	customers AS c
+LEFT JOIN orders AS o
+	ON c.customer_id = o.customer_id
+GROUP BY c.customer_id
+ORDER BY avg_order_value DESC;
+	
+
+
+
