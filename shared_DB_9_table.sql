@@ -503,6 +503,9 @@ FROM employees AS e
 WHERE e.salary>(
 	SELECT AVG(e2.salary) AS avg_dep_sal
     FROM employees AS e2
+    -- GROUP BY e2.department_id  -- these 3 line should not be used here
+	-- ORDER BY avg_dep_sal DESC
+	-- LIMIT 1
     WHERE e2.department_id=e.department_id
 );
 
@@ -538,7 +541,7 @@ GROUP BY
     e.department_id
 HAVING e.salary > AVG(e2.salary);
 
--- Employees With Highest Salary. Find all employees who earn the maximum salary.
+-- Employees With Highest Salary. Find employees who earn the maximum salary.
 SELECT 
     e.first_name,
     e.salary,
@@ -574,3 +577,50 @@ WHERE e.salary=(
     FROM employees AS e2
 );
 
+
+-- Second Highest Salary. Find the second highest distinct employee salary.
+SELECT 
+	e.first_name,
+    e.department_id,
+    e.salary
+FROM employees AS e
+ORDER BY e.salary DESC
+LIMIT 1
+OFFSET 1;
+
+SELECT 
+	e.first_name,
+    e.department_id,
+    e.salary
+FROM employees AS e
+WHERE e.salary<(
+	SELECT 
+		MAX(e2.salary) as max_salary
+        FROM employees AS e2
+)
+ORDER BY e.salary DESC
+LIMIT 1;
+-- OFFSET 1;
+
+SELECT 
+    MAX(e.salary) AS second_max_sal
+FROM employees AS e
+WHERE e.salary< (
+	SELECT 
+		MAX(e2.salary) AS max_sal
+		FROM employees AS e2
+);
+
+-- Employees With Same Salary. Find salary values shared by more than one employee.
+SELECT 
+	e.salary,
+    COUNT(*) AS employee_count
+FROM employees AS e
+GROUP BY salary
+HAVING employee_count>1;
+
+    
+
+
+
+	
