@@ -493,3 +493,84 @@ LEFT JOIN employees AS m
 ORDER BY manager_name;
 
 
+-- Employees Earning Above Department Average. Find employees whose salary is greater than their department's average salary.
+SELECT
+	e.employee_id,
+    e.first_name,
+    e.salary,
+    e.department_id
+FROM employees AS e
+WHERE e.salary>(
+	SELECT AVG(e2.salary) AS avg_dep_sal
+    FROM employees AS e2
+    WHERE e2.department_id=e.department_id
+);
+
+SELECT
+    e.employee_id,
+    e.first_name,
+    e.salary,
+    e.department_id
+FROM employees AS e
+INNER JOIN (
+    SELECT
+        department_id,
+        AVG(salary) AS avg_dep_salary
+    FROM employees
+    GROUP BY department_id
+) AS d
+    ON e.department_id = d.department_id
+WHERE e.salary > d.avg_dep_salary;
+
+
+SELECT
+    e.employee_id,
+    e.first_name,
+    e.salary,
+    e.department_id
+FROM employees AS e
+INNER JOIN employees AS e2
+    ON e.department_id = e2.department_id
+GROUP BY
+    e.employee_id,
+    e.first_name,
+    e.salary,
+    e.department_id
+HAVING e.salary > AVG(e2.salary);
+
+-- Employees With Highest Salary. Find all employees who earn the maximum salary.
+SELECT 
+    e.first_name,
+    e.salary,
+    e.department_id,
+    d.department_name
+FROM employees AS e
+INNER JOIN departments AS d
+	ON e.department_id=d.department_id
+GROUP BY -- THis is an optional bcz not aggregate function is used
+	e.first_name,
+    e.salary,
+    e.department_id,
+    d.department_name
+ORDER BY e.salary DESC
+LIMIT 1;
+    
+    
+SELECT 
+	e.employee_id,
+    e.first_name,
+    e.salary
+FROM employees AS e
+ORDER BY e.salary DESC
+LIMIT 1;
+
+SELECT
+	e.employee_id,
+    e.first_name,
+    e.salary
+FROM employees AS e
+WHERE e.salary=(
+	SELECT MAX(e2.salary) AS max_salary
+    FROM employees AS e2
+);
+
