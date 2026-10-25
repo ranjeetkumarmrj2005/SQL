@@ -620,7 +620,42 @@ GROUP BY salary
 HAVING employee_count>1;
 
     
+-- Duplicate Customer Emails. Find email addresses used by more than one customer.
+SELECT
+	COUNT(*) AS count,
+	c.email
+FROM customers AS c
+GROUP BY email
+HAVING count>1;
+
+-- Orders in 2023. Find all orders placed during 2025
+SELECT
+	o.order_id,
+    o.order_date AS order_date
+FROM orders AS o
+WHERE order_date BETWEEN'2023-01-01' AND '2023-12-31';
+    
+SELECT
+	o.order_id,
+    o.order_date 
+FROM orders AS o
+WHERE o.order_date >='2023-01-01' AND o.order_date<'2024-01-01';
 
 
+-- Monthly Revenue. Calculate revenue for each month in 2023.
+SELECT
+    DATE_FORMAT(o.order_date, '%Y-%m') AS month,
+    SUM(o.total_amount) AS revenue
+FROM orders AS o
+WHERE o.status != 'Cancelled'
+GROUP BY month
+ORDER BY month;
 
-	
+SELECT
+    DATE_FORMAT(o.order_date, '%Y-%m') AS month,
+    SUM(o.total_amount) AS revenue
+FROM orders AS o
+WHERE o.status != 'Cancelled' AND o.order_date>='2023-01-01' AND o.order_date<'2024-01-01'
+GROUP BY month
+ORDER BY month;
+
