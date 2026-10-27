@@ -659,3 +659,43 @@ WHERE o.status != 'Cancelled' AND o.order_date>='2023-01-01' AND o.order_date<'2
 GROUP BY month
 ORDER BY month;
 
+-- Orders Per Month. Count how many orders were placed in each month.
+SELECT
+	DATE_FORMAT(o.order_date,'%Y-%m') AS month,
+    COUNT(o.order_id) AS order_count_per_month
+FROM orders AS o
+WHERE o.status != 'Cancelled' AND o.order_date>='2023-01-01' AND o.order_date<'2024-01-01'
+GROUP BY month
+ORDER BY order_count_per_month;
+
+-- Customers Who Placed Multiple Orders. Find customers with at least three orders.
+SELECT 
+	o.customer_id,
+	COUNT(o.customer_id) AS order_count_per_customer
+FROM orders AS o
+GROUP BY o.customer_id
+ORDER BY order_count_per_customer;
+
+-- Latest Order for Each Customer. Find the most recent order date for every customer.
+SELECT 
+	o.customer_id,
+    MAX(o.order_date) AS latest_order_date
+FROM orders AS o
+GROUP BY o.customer_id;
+
+-- Customers Inactive for 180 Days. Find customers whose latest order was more than 300 days before 2024-01-01.
+SELECT
+	o.customer_id,
+	MAX(o.order_date) AS latest_order_date
+FROM orders AS o
+GROUP BY o.customer_id
+HAVING latest_order_date>'2023-03-01';
+
+SELECT
+    o.customer_id,
+    MAX(o.order_date) AS latest_order_date
+FROM orders AS o
+GROUP BY o.customer_id
+HAVING latest_order_date < DATE_SUB('2024-01-01', INTERVAL 300 DAY);
+
+    
