@@ -691,11 +691,51 @@ FROM orders AS o
 GROUP BY o.customer_id
 HAVING latest_order_date>'2023-03-01';
 
-SELECT
-    o.customer_id,
-    MAX(o.order_date) AS latest_order_date
+SELECT o.customer_id, MAX(o.order_date) AS latest_order_date
 FROM orders AS o
 GROUP BY o.customer_id
 HAVING latest_order_date < DATE_SUB('2024-01-01', INTERVAL 300 DAY);
 
-    
+-- Orders Above Customer Average. Find orders whose amount is greater than that customer's average order value
+SELECT o.order_id, o.total_amount
+FROM orders AS o
+WHERE o.total_amount>(
+	SELECT AVG(o2.total_amount) AS avg_ord_amount
+	FROM orders AS o2
+);
+
+-- Highest Order Per Customer. Find each customer's highest order amount.
+SELECT customer_id, MAX(total_amount) AS highest_order
+FROM orders
+GROUP BY customer_id;
+
+
+SELECT o.order_id, o.total_amount
+FROM orders AS o
+WHERE o.total_amount=(
+	SELECT MAX(o2.total_amount) AS max_amount_order
+    FROM orders o2
+    WHERE o2.customer_id=o.customer_id
+);
+
+-- P55 Orders Above Overall Average. Find all orders whose amount is above the overall average order amount.
+SELECT o.order_id, o.total_amount
+FROM orders AS o
+WHERE o.total_amount>(
+	SELECT AVG(o2.total_amount)
+    FROM orders AS o2
+);
+
+-- P56 Employee Salary Bands. Show employees and classify salaries into four bands.
+SELECT first_name, salary,
+CASE
+	WHEN salary>110000 THEN 'BAND 1'
+    WHEN salary>90000 THEN 'BAND 2'
+    WHEN salary>70000 THEN 'BAND 3'
+    ELSE 'BAND 4'
+END AS salary_band
+FROM employees ;
+	
+
+
+
