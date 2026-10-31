@@ -735,6 +735,22 @@ CASE
     ELSE 'BAND 4'
 END AS salary_band
 FROM employees ;
+
+-- Payment Success Rate. Calculate the percentage of payments that were successful.
+SELECT ROUND( 100.0 * SUM(CASE WHEN payment_status = 'Success' THEN 1 ELSE 0 END) / COUNT(*), 2 ) AS success_rate
+FROM payments;
+
+-- Payment Method Usage. Count payments made using each payment method.
+SELECT payment_method,COUNT(payment_method) AS count_for_payment_method
+FROM payments
+GROUP BY payment_method;
+
+-- Successful Payment Revenue. Calculate total amount from successful payments.
+SELECT SUM(amount) AS amount
+FROM payments
+WHERE payment_status='Success';
+
+
 	
 
 
