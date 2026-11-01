@@ -751,7 +751,24 @@ FROM payments
 WHERE payment_status='Success';
 
 
-	
+-- Orders Without Successful Payments. Find orders that do not have a successful payment.
+SELECT o.order_id,p.payment_method,p.payment_id
+FROM orders AS o
+LEFT JOIN payments AS p
+ON o.order_id=p.order_id
+WHERE payment_status !='Success';
+
+-- this query is just to see 
+-- SELECT o.order_id, o.total_amount
+-- FROM orders o
+-- LEFT JOIN payments p
+-- ON o.order_id = p.order_id
+-- AND p.payment_status = 'Success'
+-- WHERE p.payment_id IS NULL;
+
+-- Employee Name Formatting. Return each employee's full name in one column.
+SELECT CONCAT(first_name ,' ',last_name ) AS full_name
+FROM employees;
 
 
 
