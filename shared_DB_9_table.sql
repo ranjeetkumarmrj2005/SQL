@@ -770,5 +770,21 @@ WHERE payment_status !='Success';
 SELECT CONCAT(first_name ,' ',last_name ) AS full_name
 FROM employees;
 
+-- Uppercase Customer Names. Display all customer names in uppercase.
+SELECT UPPER(c.customer_name) AS customer_name
+FROM customers AS c;
+
+-- Product Name Length. Find products whose names contain more than 20 characters.
+-- LENGTH() – Counts bytes.
+-- CHAR_LENGTH() – Counts characters.
+
+SELECT product_name
+FROM products
+WHERE CHAR_LENGTH(product_name)>20;
+
+-- Customers Signed Up in 2024. Find customers who registered during 2024.
+SELECT c.customer_name
+FROM customers AS c
+WHERE signup_date>='2022-01-01' AND signup_date<'2023-01-01';
 
 
