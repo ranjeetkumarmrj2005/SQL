@@ -787,4 +787,23 @@ SELECT c.customer_name
 FROM customers AS c
 WHERE signup_date>='2022-01-01' AND signup_date<'2023-01-01';
 
+-- Employees Hired by Year. Count employees hired in each year.
+SELECT YEAR(hire_date),COUNT(*) AS total_hire_by_year
+FROM employees 
+GROUP BY YEAR(hire_date);
+
+-- Average Order by Status. Calculate the average order amount for each order status.
+SELECT AVG(o.total_amount), o.status
+FROM orders AS o
+GROUP BY o.status;
+
+-- Department Salary Summary. Show employee count, minimum salary, maximum salary, and average salary per department.
+
+SELECT
+	COUNT(*),
+	MIN(salary),
+    MAX(salary),
+    AVG(salary)
+FROM employees
+GROUP BY department_id;
 
