@@ -807,3 +807,18 @@ SELECT
 FROM employees
 GROUP BY department_id;
 
+--  Products Above Category Average. Find products priced above their category's average price.
+SELECT p.product_name
+FROM products AS p
+WHERE p.price>(
+	SELECT AVG(p2.price)
+    FROM products AS p2
+    GROUP BY category
+    HAVING p.category=p2.category
+);
+
+-- First Order Per Customer. Find each customer's first order date.
+SELECT customer_id, MIN(order_date) AS first_order_date
+FROM orders
+GROUP BY customer_id;
+
