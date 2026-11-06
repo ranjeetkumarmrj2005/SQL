@@ -822,3 +822,18 @@ SELECT customer_id, MIN(order_date) AS first_order_date
 FROM orders
 GROUP BY customer_id;
 
+-- Customer Lifetime Value. Calculate lifetime order value for every customer, including customers with no orders.
+SELECT
+c.customer_id,
+c.customer_name,
+COALESCE(SUM(
+CASE WHEN o.status > 'Cancelled'
+THEN o.total_amount ELSE 0 END
+), 0) AS lifetime_value
+FROM customers c
+LEFT JOIN orders o
+ON c.customer_id = o.customer_id
+GROUP BY c.customer_id, c.customer_name
+ORDER BY lifetime_value DESC;
+
+
